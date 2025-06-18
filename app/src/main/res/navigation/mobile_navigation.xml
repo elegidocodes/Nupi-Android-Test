@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobile_navigation"
+    app:startDestination="@+id/splashFragment">
+
+    <fragment
+        android:id="@+id/splashFragment"
+        android:name="com.elegidocodes.androidtest.ui.fragment.splash.SplashFragment"
+        android:label="SplashFragment"
+        tools:layout="@layout/fragment_splash">
+        <action
+            android:id="@+id/action_splashFragment_to_loginFragment"
+            app:destination="@id/loginFragment" />
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/loginFragment"
+        android:name="com.elegidocodes.androidtest.ui.fragment.login.LoginFragment"
+        android:label="@string/title_login"
+        tools:layout="@layout/fragment_login">
+        <action
+            android:id="@+id/action_loginFragment_to_fragmentHome"
+            app:destination="@id/fragmentHome" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/fragmentHome"
+        android:name="com.elegidocodes.androidtest.ui.fragment.home.HomeFragment"
+        android:label="@string/title_home"
+        tools:layout="@layout/fragment_home">
+        <action
+            android:id="@+id/action_fragmentHome_to_libraryFragment"
+            app:destination="@id/libraryFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/libraryFragment"
+        android:name="com.elegidocodes.androidtest.ui.fragment.library.LibraryFragment"
+        android:label="@string/title_notifications"
+        tools:layout="@layout/fragment_library">
+        <action
+            android:id="@+id/action_libraryFragment_to_libraryItemFragment"
+            app:destination="@id/libraryItemFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/libraryItemFragment"
+        android:name="com.elegidocodes.androidtest.ui.fragment.library.LibraryItemFragment"
+        android:label="@string/title_notifications"
+        tools:layout="@layout/fragment_libray_item" />
+
+</navigation>
