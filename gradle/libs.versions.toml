@@ -11,6 +11,7 @@ navigationFragment = "2.9.0"
 navigationUi = "2.9.0"
 
 # Retrofit
+picasso = "2.71828"
 retrofit = "2.11.0"
 gson = "2.11.0"
 loggingInterceptor = "4.9.0"
@@ -31,6 +32,7 @@ swiperefreshlayout = "1.1.0"
 
 # Glide
 glide = "4.14.2"
+legacySupportV4 = "1.0.0"
 
 [libraries]
 junit = { group = "junit", name = "junit", version.ref = "junit" }
@@ -44,6 +46,7 @@ navigation-fragment = { group = "androidx.navigation", name = "navigation-fragme
 navigation-ui = { group = "androidx.navigation", name = "navigation-ui", version.ref = "navigationUi" }
 
 # Retrofit
+picasso = { module = "com.squareup.picasso:picasso", version.ref = "picasso" }
 retrofit = { module = "com.squareup.retrofit2:retrofit", version.ref = "retrofit" }
 gson = { module = "com.google.code.gson:gson", version.ref = "gson" }
 converter-gson = { module = "com.squareup.retrofit2:converter-gson", version.ref = "retrofit" }
@@ -69,6 +72,7 @@ swiperefreshlayout = { module = "androidx.swiperefreshlayout:swiperefreshlayout"
 # Glide
 glide = { module = "com.github.bumptech.glide:glide", version.ref = "glide" }
 compiler = { module = "com.github.bumptech.glide:compiler", version.ref = "glide" }
+legacy-support-v4 = { group = "androidx.legacy", name = "legacy-support-v4", version.ref = "legacySupportV4" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

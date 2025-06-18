@@ -62,6 +62,7 @@ dependencies {
 
     // Hilt Dagger for dependency injection
     implementation(libs.hilt.android)
+    implementation(libs.legacy.support.v4)
     annotationProcessor(libs.hilt.compiler)
 
     // ViewModel and LiveData for lifecycle
@@ -74,6 +75,9 @@ dependencies {
     // Glide for image loading
     implementation(libs.glide)
     annotationProcessor(libs.compiler)
+
+    // Glide for more custom image loading
+    implementation(libs.picasso)
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)

@@ -20,6 +20,9 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_gravity="start"
+            android:layout_marginTop="8dp"
+            android:fitsSystemWindows="true"
+            app:drawerLayoutCornerSize="16dp"
             app:menu="@menu/drawer_menu" />
 
     </androidx.drawerlayout.widget.DrawerLayout>

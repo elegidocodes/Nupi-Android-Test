@@ -10,5 +10,6 @@
 
     <color name="app_white">#eaeaea</color>
     <color name="app_red">#e72663</color>
+    <color name="app_red_variant_1">#fde9ef</color>
 
 </resources>

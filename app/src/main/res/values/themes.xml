@@ -1,4 +1,5 @@
 <resources>
+
     <!-- Base application theme. -->
     <style name="Theme.AndroidTest" parent="Theme.Material3.DayNight">
         <!-- Primary brand color. -->
@@ -11,6 +12,19 @@
         <item name="colorOnSecondary">@color/black</item>
         <!-- Status bar color. -->
         <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>
-        <!-- Customize your theme here. -->
     </style>
+
+    <style name="customCardBackground" parent="Widget.Material3.CardView.Filled">
+        <item name="cardBackgroundColor">@color/app_red_variant_1</item>
+    </style>
+
+    <style name="customInputLayoutStyle">
+        <item name="strokeColor">@color/app_red</item>
+        <item name="boxCornerRadiusBottomEnd">24dp</item>
+        <item name="boxCornerRadiusBottomStart">24dp</item>
+        <item name="boxCornerRadiusTopEnd">24dp</item>
+        <item name="boxCornerRadiusTopStart">24dp</item>
+        <item name="boxStrokeWidth">1dp</item>
+    </style>
+
 </resources>

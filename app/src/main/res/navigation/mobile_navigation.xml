@@ -34,22 +34,38 @@
         <action
             android:id="@+id/action_fragmentHome_to_libraryFragment"
             app:destination="@id/libraryFragment" />
+        <action
+            android:id="@+id/action_fragmentHome_to_userProfileFragment"
+            app:destination="@id/userProfileFragment" />
     </fragment>
 
     <fragment
         android:id="@+id/libraryFragment"
         android:name="com.elegidocodes.androidtest.ui.fragment.library.LibraryFragment"
-        android:label="@string/title_notifications"
+        android:label="Libraries"
         tools:layout="@layout/fragment_library">
         <action
             android:id="@+id/action_libraryFragment_to_libraryItemFragment"
             app:destination="@id/libraryItemFragment" />
+        <action
+            android:id="@+id/action_libraryFragment_to_userProfileFragment"
+            app:destination="@id/userProfileFragment" />
     </fragment>
 
     <fragment
         android:id="@+id/libraryItemFragment"
         android:name="com.elegidocodes.androidtest.ui.fragment.library.LibraryItemFragment"
-        android:label="@string/title_notifications"
-        tools:layout="@layout/fragment_libray_item" />
+        android:label="Library information"
+        tools:layout="@layout/fragment_libray_item" >
+        <action
+            android:id="@+id/action_libraryItemFragment_to_userProfileFragment"
+            app:destination="@id/userProfileFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/userProfileFragment"
+        android:name="com.elegidocodes.androidtest.ui.fragment.user.UserProfileFragment"
+        android:label="User Profile"
+        tools:layout="@layout/fragment_user_profile" />
 
 </navigation>
