@@ -61,9 +61,7 @@ public class HomeFragment extends Fragment {
             Log.d(TAG, "Token: " + token.getAccessToken());
         }
 
-        cardBlog.setOnClickListener(v -> {
-        });
-
+        cardBlog.setOnClickListener(v -> navController.navigate(R.id.wallFragment));
         cardLibrary.setOnClickListener(v -> navController.navigate(R.id.libraryFragment));
 
     }

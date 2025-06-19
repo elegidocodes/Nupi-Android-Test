@@ -59,6 +59,7 @@ public class LibraryRepository {
     }
 
     public void getLibraryInfo(int libraryId, String authToken) {
+
         MyRetrofit.setAuthToken(authToken);
         MyAPI myAPI = MyRetrofit.getService();
 

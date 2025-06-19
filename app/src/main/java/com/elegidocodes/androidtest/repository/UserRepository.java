@@ -48,8 +48,6 @@ public class UserRepository {
 
     public CompletableFuture<ServerResponse<String>> logout(String authToken) {
 
-        Log.d(TAG, "authToken: " + authToken);
-
         MyRetrofit.setAuthToken(authToken);
         myAPI = MyRetrofit.getService();
 
@@ -75,6 +73,7 @@ public class UserRepository {
         myAPI = MyRetrofit.getService();
 
         return CompletableFuture.supplyAsync(() -> {
+
             RequestBody firstNameBody = RequestBody.create(firstName, MediaType.parse("text/plain"));
             RequestBody lastNameBody = RequestBody.create(lastName, MediaType.parse("text/plain"));
             RequestBody emailBody = RequestBody.create(email, MediaType.parse("text/plain"));
@@ -88,6 +87,7 @@ public class UserRepository {
             } catch (IOException e) {
                 throw new CompletionException(e);
             }
+
         });
     }
 
@@ -109,6 +109,7 @@ public class UserRepository {
             } catch (IOException e) {
                 throw new CompletionException(e);
             }
+
         });
     }
 

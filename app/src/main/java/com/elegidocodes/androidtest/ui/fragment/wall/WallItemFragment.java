@@ -1,0 +1,38 @@
+package com.elegidocodes.androidtest.ui.fragment.wall;
+
+import androidx.lifecycle.ViewModelProvider;
+
+import android.os.Bundle;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+
+import com.elegidocodes.androidtest.R;
+
+public class WallItemFragment extends Fragment {
+
+    private WallItemViewModel mViewModel;
+
+    public static WallItemFragment newInstance() {
+        return new WallItemFragment();
+    }
+
+    @Override
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
+                             @Nullable Bundle savedInstanceState) {
+        return inflater.inflate(R.layout.fragment_wall_item, container, false);
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        mViewModel = new ViewModelProvider(this).get(WallItemViewModel.class);
+        // TODO: Use the ViewModel
+    }
+
+}

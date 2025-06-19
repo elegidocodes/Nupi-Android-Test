@@ -37,6 +37,9 @@
         <action
             android:id="@+id/action_fragmentHome_to_userProfileFragment"
             app:destination="@id/userProfileFragment" />
+        <action
+            android:id="@+id/action_fragmentHome_to_wallFragment"
+            app:destination="@id/wallFragment" />
     </fragment>
 
     <fragment
@@ -53,10 +56,20 @@
     </fragment>
 
     <fragment
+        android:id="@+id/wallFragment"
+        android:name="com.elegidocodes.androidtest.ui.fragment.wall.WallFragment"
+        android:label="Walls"
+        tools:layout="@layout/fragment_wall">
+        <action
+            android:id="@+id/action_wallFragment_to_userProfileFragment"
+            app:destination="@id/userProfileFragment" />
+    </fragment>
+
+    <fragment
         android:id="@+id/libraryItemFragment"
         android:name="com.elegidocodes.androidtest.ui.fragment.library.LibraryItemFragment"
         android:label="Library information"
-        tools:layout="@layout/fragment_libray_item" >
+        tools:layout="@layout/fragment_libray_item">
         <action
             android:id="@+id/action_libraryItemFragment_to_userProfileFragment"
             app:destination="@id/userProfileFragment" />

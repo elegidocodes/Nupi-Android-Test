@@ -30,7 +30,7 @@ public interface MyAPI {
     Call<ServerResponse<String>> logout();
 
     @GET("wall")
-    Call<ServerResponse<List<BlogResponseData>>> getWall();
+    Call<ServerResponse<BlogResponseData>> getWall();
 
     @GET("wall/{id}")
     Call<ServerResponse<List<BlogItemResponseData>>> getWallInfo(@Path("id") int wallId);

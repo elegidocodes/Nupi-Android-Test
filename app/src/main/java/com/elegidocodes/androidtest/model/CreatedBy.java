@@ -24,6 +24,10 @@ public class CreatedBy {
     @Expose
     private String fullName;
 
+    @SerializedName("profile_picture")
+    @Expose
+    private String profilePicture;
+
     public Integer getId() {
         return id;
     }
@@ -62,6 +66,14 @@ public class CreatedBy {
 
     public void setFullName(String fullName) {
         this.fullName = fullName;
+    }
+
+    public String getProfilePicture() {
+        return profilePicture;
+    }
+
+    public void setProfilePicture(String profilePicture) {
+        this.profilePicture = profilePicture;
     }
 
 }
