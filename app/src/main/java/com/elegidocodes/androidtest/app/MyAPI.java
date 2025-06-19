@@ -1,5 +1,7 @@
 package com.elegidocodes.androidtest.app;
 
+import com.elegidocodes.androidtest.model.BlogItemResponseData;
+import com.elegidocodes.androidtest.model.BlogResponseData;
 import com.elegidocodes.androidtest.model.LibraryItemResponseData;
 import com.elegidocodes.androidtest.model.LibraryResponseData;
 import com.elegidocodes.androidtest.model.LoginResponseData;
@@ -26,6 +28,12 @@ public interface MyAPI {
 
     @POST("auth/logout")
     Call<ServerResponse<String>> logout();
+
+    @GET("wall")
+    Call<ServerResponse<List<BlogResponseData>>> getWall();
+
+    @GET("wall/{id}")
+    Call<ServerResponse<List<BlogItemResponseData>>> getWallInfo(@Path("id") int wallId);
 
     @GET("library")
     Call<ServerResponse<LibraryResponseData>> searchInLibrary(@Query("search") String search);

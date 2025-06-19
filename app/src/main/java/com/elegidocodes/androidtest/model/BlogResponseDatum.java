@@ -8,7 +8,7 @@ import java.util.List;
 import javax.annotation.processing.Generated;
 
 @Generated("jsonschema2pojo")
-public class MuroItemResponseData {
+public class BlogResponseDatum {
 
     @SerializedName("id")
     @Expose
@@ -61,12 +61,6 @@ public class MuroItemResponseData {
     @SerializedName("groups_id")
     @Expose
     private List<Object> groupsId;
-    @SerializedName("wall_post_has_groups")
-    @Expose
-    private List<Object> wallPostHasGroups;
-    @SerializedName("wall_post_has_users")
-    @Expose
-    private List<Object> wallPostHasUsers;
 
     public Integer getId() {
         return id;
@@ -202,22 +196,6 @@ public class MuroItemResponseData {
 
     public void setGroupsId(List<Object> groupsId) {
         this.groupsId = groupsId;
-    }
-
-    public List<Object> getWallPostHasGroups() {
-        return wallPostHasGroups;
-    }
-
-    public void setWallPostHasGroups(List<Object> wallPostHasGroups) {
-        this.wallPostHasGroups = wallPostHasGroups;
-    }
-
-    public List<Object> getWallPostHasUsers() {
-        return wallPostHasUsers;
-    }
-
-    public void setWallPostHasUsers(List<Object> wallPostHasUsers) {
-        this.wallPostHasUsers = wallPostHasUsers;
     }
 
 }

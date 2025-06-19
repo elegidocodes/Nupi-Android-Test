@@ -8,14 +8,14 @@ import java.util.List;
 import javax.annotation.processing.Generated;
 
 @Generated("jsonschema2pojo")
-public class MuroResponseData {
+public class BlogResponseData {
 
     @SerializedName("current_page")
     @Expose
     private Integer currentPage;
     @SerializedName("data")
     @Expose
-    private List<MuroResponseDatum> data;
+    private List<BlogResponseDatum> data;
     @SerializedName("first_page_url")
     @Expose
     private String firstPageUrl;
@@ -58,11 +58,11 @@ public class MuroResponseData {
         this.currentPage = currentPage;
     }
 
-    public List<MuroResponseDatum> getData() {
+    public List<BlogResponseDatum> getData() {
         return data;
     }
 
-    public void setData(List<MuroResponseDatum> data) {
+    public void setData(List<BlogResponseDatum> data) {
         this.data = data;
     }
 
