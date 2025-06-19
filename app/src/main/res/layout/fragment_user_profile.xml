@@ -154,8 +154,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:alpha="0.6"
-            android:background="@color/black"
-            android:visibility="gone">
+            android:background="@color/black">
 
             <com.google.android.material.progressindicator.CircularProgressIndicator
                 android:id="@+id/indicator"

@@ -4,6 +4,7 @@ import static android.view.View.VISIBLE;
 import static com.elegidocodes.androidtest.utility.FileUtils.uriToFileForImage;
 import static com.elegidocodes.androidtest.utility.MimeTypeUtil.getMimeType;
 import static com.elegidocodes.androidtest.utility.SharedPreferencesUtil.get;
+import static com.elegidocodes.androidtest.utility.SharedPreferencesUtil.save;
 
 import android.app.Activity;
 import android.content.Context;
@@ -31,6 +32,7 @@ import com.elegidocodes.androidtest.R;
 import com.elegidocodes.androidtest.databinding.FragmentUserProfileBinding;
 import com.elegidocodes.androidtest.model.Token;
 import com.elegidocodes.androidtest.model.User;
+import com.elegidocodes.androidtest.model.UserProfileResponseData;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
@@ -98,22 +100,12 @@ public class UserProfileFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+    }
 
-        user = get(context, "MyPrefs", "user", User.class);
-        token = get(context, "MyPrefs", "token", Token.class);
-
-        if (user != null && token != null) {
-            firstNameEditText.setText(user.getName());
-            lastNameEditText.setText(user.getLastName());
-            emailEditText.setText(user.getEmail());
-
-            Glide.with(context)
-                    .load(user.getProfilePicture())
-                    .placeholder(R.drawable.ic_launcher_foreground)
-                    .into(binding.imageView);
-
-        }
-
+    @Override
+    public void onResume() {
+        super.onResume();
+        refreshUI();
     }
 
     private void bind() {
@@ -159,8 +151,8 @@ public class UserProfileFragment extends Fragment {
                 .thenAccept(serverResponse -> {
 
                     requireActivity().runOnUiThread(() -> {
-                        indicatorWrapper.setVisibility(View.GONE);
                         Toast.makeText(context, serverResponse.getMessage(), Toast.LENGTH_SHORT).show();
+                        updateProfileLocally();
                     });
 
                 })
@@ -169,6 +161,48 @@ public class UserProfileFragment extends Fragment {
                     return null;
                 });
 
+    }
+
+    private void updateProfileLocally() {
+        viewModel.getUserInfo(token.getAccessToken())
+                .thenAccept(serverResponse -> {
+
+                    UserProfileResponseData userResponseData = serverResponse.getData().get(0);
+                    user.setName(userResponseData.getName());
+                    user.setLastName(userResponseData.getLastName());
+                    user.setEmail(userResponseData.getEmail());
+                    user.setProfilePicture(userResponseData.getProfilePicture());
+
+                    save(context, "MyPrefs", "user", user);
+
+                    requireActivity().runOnUiThread(() -> {
+                        refreshUI();
+                        Toast.makeText(context, "Information updated locally...", Toast.LENGTH_SHORT).show();
+                    });
+
+                })
+                .exceptionally(throwable -> {
+                    Log.e(TAG, "Error updating profile", throwable);
+                    return null;
+                });
+    }
+
+    private void refreshUI() {
+        user = get(context, "MyPrefs", "user", User.class);
+        token = get(context, "MyPrefs", "token", Token.class);
+
+        if (user != null && token != null) {
+            firstNameEditText.setText(user.getName());
+            lastNameEditText.setText(user.getLastName());
+            emailEditText.setText(user.getEmail());
+
+            Glide.with(context)
+                    .load(user.getProfilePicture())
+                    .placeholder(R.drawable.ic_launcher_foreground)
+                    .into(binding.imageView);
+        }
+
+        indicatorWrapper.setVisibility(View.GONE);
     }
 
     public void openGallery() {
@@ -200,6 +234,8 @@ public class UserProfileFragment extends Fragment {
 
                     requireActivity().runOnUiThread(() -> {
                         Toast.makeText(context, serverResponse.getMessage(), Toast.LENGTH_SHORT).show();
+
+                        updateProfileLocally();
                     });
 
                 })

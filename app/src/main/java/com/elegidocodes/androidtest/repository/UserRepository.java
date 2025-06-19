@@ -7,10 +7,13 @@ import com.elegidocodes.androidtest.app.MyAPI;
 import com.elegidocodes.androidtest.app.MyRetrofit;
 import com.elegidocodes.androidtest.model.LoginResponseData;
 import com.elegidocodes.androidtest.model.ServerResponse;
+import com.elegidocodes.androidtest.model.UserProfileResponseData;
+import com.elegidocodes.androidtest.model.UserResponseData;
 import com.google.gson.JsonObject;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionException;
 
@@ -57,6 +60,27 @@ public class UserRepository {
 
             try {
                 Response<ServerResponse<String>> response = call.execute();
+                Log.d(TAG, "Response: " + response.body());
+                return response.body();
+            } catch (IOException e) {
+                throw new CompletionException(e);
+            }
+
+        });
+
+    }
+
+    public CompletableFuture<ServerResponse<List<UserProfileResponseData>>> getUserInfo(String authToken) {
+
+        MyRetrofit.setAuthToken(authToken);
+        myAPI = MyRetrofit.getService();
+
+        return CompletableFuture.supplyAsync(() -> {
+
+            Call<ServerResponse<List<UserProfileResponseData>>> call = myAPI.getUserInfo();
+
+            try {
+                Response<ServerResponse<List<UserProfileResponseData>>> response = call.execute();
                 Log.d(TAG, "Response: " + response.body());
                 return response.body();
             } catch (IOException e) {

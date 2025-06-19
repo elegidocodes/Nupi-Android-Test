@@ -6,6 +6,8 @@ import com.elegidocodes.androidtest.model.LibraryItemResponseData;
 import com.elegidocodes.androidtest.model.LibraryResponseData;
 import com.elegidocodes.androidtest.model.LoginResponseData;
 import com.elegidocodes.androidtest.model.ServerResponse;
+import com.elegidocodes.androidtest.model.UserProfileResponseData;
+import com.elegidocodes.androidtest.model.UserResponseData;
 import com.google.gson.JsonObject;
 
 import java.util.List;
@@ -28,6 +30,9 @@ public interface MyAPI {
 
     @POST("auth/logout")
     Call<ServerResponse<String>> logout();
+
+    @GET("users/profile")
+    Call<ServerResponse<List<UserProfileResponseData>>> getUserInfo();
 
     @GET("wall")
     Call<ServerResponse<BlogResponseData>> getWall();
