@@ -75,7 +75,7 @@ public class MainActivity extends AppCompatActivity {
             navController = navHostFragment.getNavController();
 
             // Set up AppBarConfiguration with the drawer
-            appBarConfiguration = new AppBarConfiguration.Builder(R.id.loginFragment, R.id.fragmentHome, R.id.userProfileFragment)
+            appBarConfiguration = new AppBarConfiguration.Builder(R.id.loginFragment, R.id.homeFragment, R.id.userProfileFragment)
                     .setOpenableLayout(drawerLayout)
                     .build();
 

@@ -8,16 +8,19 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <com.google.android.material.card.MaterialCardView
-            style="@style/customCardBackground"
+        <LinearLayout
+            android:id="@+id/mainContent"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_margin="16dp">
+            android:background="@color/black"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:padding="16dp">
 
-            <LinearLayout
+            <FrameLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:orientation="vertical">
+                android:layout_weight="0.60">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
@@ -28,20 +31,21 @@
                         style="@style/Widget.Material3.CardView.Outlined"
                         android:layout_width="0dp"
                         android:layout_height="200dp"
+                        app:cardBackgroundColor="@color/black"
                         app:cardCornerRadius="500dp"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintDimensionRatio="1:1"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent">
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:strokeColor="@color/app_red">
 
                         <ImageView
                             android:id="@+id/imageView"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:contentDescription="TODO"
-                            android:scaleType="centerCrop"
-                            android:src="@color/app_white" />
+                            android:scaleType="centerCrop" />
 
                         <com.google.android.material.button.MaterialButton
                             android:id="@+id/btnUpdateProfilePicture"
@@ -55,13 +59,19 @@
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
+            </FrameLayout>
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="0.30">
+
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:layout_marginHorizontal="16dp"
-                    android:layout_weight="1"
+                    android:layout_height="match_parent"
                     android:gravity="center"
-                    android:orientation="vertical">
+                    android:orientation="vertical"
+                    tools:ignore="UselessParent">
 
                     <com.google.android.material.textfield.TextInputLayout
                         android:id="@+id/nameInputLayout"
@@ -69,12 +79,13 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="12dp"
-                        android:hint="First Name"
+                        android:hint="@string/first_name"
                         app:counterMaxLength="30"
                         app:endIconMode="clear_text">
 
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/nameEditText"
+                            style="@style/customInputEditTextStyle"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:inputType="textEmailAddress" />
@@ -83,17 +94,18 @@
 
                     <com.google.android.material.textfield.TextInputLayout
                         android:id="@+id/lastNameInputLayout"
-
                         style="@style/customInputLayoutStyle"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="12dp"
-                        android:hint="Last name"
+                        android:hint="@string/last_name"
                         app:counterMaxLength="30"
                         app:endIconMode="clear_text">
 
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/lastNameEditText"
+                            style="@style/customInputEditTextStyle"
+
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:inputType="textEmailAddress" />
@@ -112,7 +124,9 @@
 
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/emailEditText"
+                            style="@style/customInputEditTextStyle"
                             android:layout_width="match_parent"
+
                             android:layout_height="wrap_content"
                             android:inputType="textEmailAddress" />
 
@@ -125,14 +139,33 @@
                         android:layout_marginTop="24dp"
                         android:backgroundTint="@color/app_red"
                         android:paddingVertical="12dp"
-                        android:text="Save"
+                        android:text="@string/save"
+                        android:textColor="@color/white"
                         android:textSize="16sp" />
 
                 </LinearLayout>
 
-            </LinearLayout>
+            </FrameLayout>
 
-        </com.google.android.material.card.MaterialCardView>
+        </LinearLayout>
+
+        <FrameLayout
+            android:id="@+id/indicatorWrapper"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:alpha="0.6"
+            android:background="@color/black"
+            android:visibility="gone">
+
+            <com.google.android.material.progressindicator.CircularProgressIndicator
+                android:id="@+id/indicator"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:indeterminate="true"
+                app:indicatorColor="@color/app_red" />
+
+        </FrameLayout>
 
     </FrameLayout>
 

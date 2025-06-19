@@ -11,6 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
+import androidx.navigation.NavOptions;
 import androidx.navigation.Navigation;
 
 import com.airbnb.lottie.LottieAnimationView;
@@ -22,18 +23,6 @@ public class SplashFragment extends Fragment {
     private FragmentSplashBinding binding;
     private NavController navController;
 
-    public SplashFragment() {
-    }
-
-    public static SplashFragment newInstance() {
-        return new SplashFragment();
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-    }
-
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_splash, container, false);
@@ -44,10 +33,10 @@ public class SplashFragment extends Fragment {
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        // Initialize NavController
         navController = Navigation.findNavController(view);
 
         LottieAnimationView animationView = binding.animationView;
+
         animationView.setAnimation("splash.json");
         animationView.setRepeatCount(0);
 
@@ -62,13 +51,22 @@ public class SplashFragment extends Fragment {
                             .setDuration(600)
                             .withEndAction(() -> {
                                 animationView.setVisibility(View.GONE);
-                                // Navigate to the next fragment
-                                navController.navigate(R.id.loginFragment);
+                                NavOptions navOptions = new NavOptions.Builder()
+                                        .setPopUpTo(R.id.splashFragment, true)
+                                        .build();
+
+                                navController.navigate(R.id.loginFragment, null, navOptions);
                             })
                             .start();
                 }
             });
         });
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        binding = null;
     }
 
 }

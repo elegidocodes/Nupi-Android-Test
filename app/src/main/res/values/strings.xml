@@ -13,4 +13,7 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="title">Title</string>
     <string name="description">Description</string>
+    <string name="last_name">Last name</string>
+    <string name="first_name">First Name</string>
+    <string name="save">Save</string>
 </resources>

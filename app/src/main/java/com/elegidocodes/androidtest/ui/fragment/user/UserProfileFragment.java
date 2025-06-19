@@ -1,5 +1,6 @@
 package com.elegidocodes.androidtest.ui.fragment.user;
 
+import static android.view.View.VISIBLE;
 import static com.elegidocodes.androidtest.utility.FileUtils.uriToFileForImage;
 import static com.elegidocodes.androidtest.utility.MimeTypeUtil.getMimeType;
 import static com.elegidocodes.androidtest.utility.SharedPreferencesUtil.get;
@@ -14,6 +15,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.Toast;
 
 import androidx.activity.result.ActivityResultLauncher;
@@ -41,6 +43,17 @@ public class UserProfileFragment extends Fragment {
     private FragmentUserProfileBinding binding;
     private UserProfileViewModel viewModel;
     private Context context;
+    private FrameLayout indicatorWrapper;
+    private TextInputLayout firstNameInputLayout;
+    private TextInputLayout lastNameInputLayout;
+    private TextInputLayout emailInputLayout;
+    private TextInputEditText firstNameEditText;
+    private TextInputEditText lastNameEditText;
+    private TextInputEditText emailEditText;
+    private MaterialButton btnUpdateProfilePicture;
+    private MaterialButton btnUpdateProfile;
+    private User user;
+    private Token token;
     private final ActivityResultLauncher<Intent> activityResultLauncherForGallery = registerForActivityResult(
             new ActivityResultContracts.StartActivityForResult(),
             result -> {
@@ -66,16 +79,6 @@ public class UserProfileFragment extends Fragment {
 
                 }
             });
-    private TextInputLayout firstNameInputLayout;
-    private TextInputLayout lastNameInputLayout;
-    private TextInputLayout emailInputLayout;
-    private TextInputEditText firstNameEditText;
-    private TextInputEditText lastNameEditText;
-    private TextInputEditText emailEditText;
-    private MaterialButton btnUpdateProfilePicture;
-    private MaterialButton btnUpdateProfile;
-    private User user;
-    private Token token;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -114,6 +117,9 @@ public class UserProfileFragment extends Fragment {
     }
 
     private void bind() {
+
+        indicatorWrapper = binding.indicatorWrapper;
+
         firstNameInputLayout = binding.nameInputLayout;
         lastNameInputLayout = binding.lastNameInputLayout;
         emailInputLayout = binding.emailInputLayout;
@@ -146,10 +152,14 @@ public class UserProfileFragment extends Fragment {
             return;
         }
 
+        indicatorWrapper.setVisibility(VISIBLE);
+        Toast.makeText(requireContext(), "Updating profile...", Toast.LENGTH_SHORT).show();
+
         viewModel.updateProfile(firstName, lastName, email, token.getAccessToken())
                 .thenAccept(serverResponse -> {
 
                     requireActivity().runOnUiThread(() -> {
+                        indicatorWrapper.setVisibility(View.GONE);
                         Toast.makeText(context, serverResponse.getMessage(), Toast.LENGTH_SHORT).show();
                     });
 
@@ -158,8 +168,6 @@ public class UserProfileFragment extends Fragment {
                     Log.e("UserProfileFragment", "Error updating profile", throwable);
                     return null;
                 });
-
-        Toast.makeText(requireContext(), "Updating profile...", Toast.LENGTH_SHORT).show();
 
     }
 

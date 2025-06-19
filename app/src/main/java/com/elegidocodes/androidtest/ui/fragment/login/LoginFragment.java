@@ -19,12 +19,14 @@ import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
+import androidx.navigation.NavOptions;
 import androidx.navigation.Navigation;
 
 import com.elegidocodes.androidtest.R;
 import com.elegidocodes.androidtest.databinding.FragmentLoginBinding;
 import com.elegidocodes.androidtest.model.Token;
 import com.elegidocodes.androidtest.model.User;
+import com.google.android.material.button.MaterialButton;
 import com.google.android.material.progressindicator.CircularProgressIndicator;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
@@ -45,12 +47,15 @@ public class LoginFragment extends Fragment {
 
     private NavController navController;
 
+    private LinearLayout mainContent;
     private CircularProgressIndicator indicator;
     private ImageView imageView;
     private TextInputLayout emailInputLayout;
     private TextInputLayout passwordInputLayout;
     private TextInputEditText emailEditText;
     private TextInputEditText passwordEditText;
+
+    private MaterialButton btnLogin;
 
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -60,22 +65,17 @@ public class LoginFragment extends Fragment {
 
         context = requireContext();
 
-        indicator = binding.indicator;
-        imageView = binding.imageView;
-        emailInputLayout = binding.emailInputLayout;
-        passwordInputLayout = binding.passwordInputLayout;
-        emailEditText = binding.emailEditText;
-        passwordEditText = binding.passwordEditText;
+        bind();
 
-        LinearLayout mainContent = binding.mainContent;
+        // Small animation
         mainContent.setVisibility(View.VISIBLE);
         mainContent.setAlpha(0f);
         mainContent.animate()
                 .alpha(1f)
-                .setDuration(600)
+                .setDuration(1000)
                 .start();
 
-        binding.buttonLogin.setOnClickListener(v -> login());
+        btnLogin.setOnClickListener(v -> login());
 
         return binding.getRoot();
     }
@@ -86,14 +86,13 @@ public class LoginFragment extends Fragment {
 
         User user = get(context, "MyPrefs", "user", User.class);
 
-
         if (user != null) {
             Toast.makeText(requireContext(), "Bienvenido " + user.getName(), Toast.LENGTH_SHORT).show();
 
             Picasso.get()
-                    .load(user.getProfilePicture()) // can be URL or Uri
-                    .placeholder(R.drawable.ic_launcher_foreground) // shown while loading
-                    .error(R.drawable.ic_launcher_foreground)             // shown on failure
+                    .load(user.getProfilePicture())
+                    .placeholder(R.drawable.ic_launcher_foreground)
+                    .error(R.drawable.ic_launcher_foreground)
                     .into(imageView, new Callback() {
                         @Override
                         public void onSuccess() {
@@ -110,12 +109,22 @@ public class LoginFragment extends Fragment {
             emailEditText.setText(user.getEmail());
 
         } else {
-            binding.indicator.setVisibility(View.GONE);
-            binding.imageView.setImageDrawable(ContextCompat.getDrawable(requireContext(), R.drawable.ic_launcher_foreground));
+            indicator.setVisibility(View.GONE);
+            imageView.setImageDrawable(ContextCompat.getDrawable(requireContext(), R.drawable.ic_launcher_foreground));
         }
 
-        // Initialize NavController
         navController = Navigation.findNavController(view);
+    }
+
+    public void bind() {
+        mainContent = binding.mainContent;
+        indicator = binding.indicator;
+        imageView = binding.imageView;
+        emailInputLayout = binding.emailInputLayout;
+        passwordInputLayout = binding.passwordInputLayout;
+        emailEditText = binding.emailEditText;
+        passwordEditText = binding.passwordEditText;
+        btnLogin = binding.buttonLogin;
     }
 
     private void login() {
@@ -148,15 +157,19 @@ public class LoginFragment extends Fragment {
                                 User user = serverResponse.getData().getUser();
                                 Token token = serverResponse.getData().getToken();
 
-                                Toast.makeText(requireContext(), "Bienvenido " + user.getName(), Toast.LENGTH_SHORT).show();
+                                Toast.makeText(context, "Bienvenido " + user.getName(), Toast.LENGTH_SHORT).show();
 
-                                save(requireContext(), "MyPrefs", "user", user);
-                                save(requireContext(), "MyPrefs", "token", token);
+                                save(context, "MyPrefs", "user", user);
+                                save(context, "MyPrefs", "token", token);
+
                                 Log.d(TAG, gson.toJson(user));
                                 Log.d(TAG, gson.toJson(token));
 
-                                // Navigate to the next fragment
-                                navController.navigate(R.id.fragmentHome);
+                                NavOptions navOptions = new NavOptions.Builder()
+                                        .setPopUpTo(R.id.loginFragment, true)
+                                        .build();
+
+                                navController.navigate(R.id.homeFragment, null, navOptions);
 
                             } else if (serverResponse.getCode() == 401 && serverResponse.getError() != null) {
                                 Toast.makeText(requireContext(), serverResponse.getError().getMessage(), Toast.LENGTH_SHORT).show();
