@@ -46,6 +46,29 @@ public class UserRepository {
 
     }
 
+    public CompletableFuture<ServerResponse<String>> logout(String authToken) {
+
+        Log.d(TAG, "authToken: " + authToken);
+
+        MyRetrofit.setAuthToken(authToken);
+        myAPI = MyRetrofit.getService();
+
+        return CompletableFuture.supplyAsync(() -> {
+
+            Call<ServerResponse<String>> call = myAPI.logout();
+
+            try {
+                Response<ServerResponse<String>> response = call.execute();
+                Log.d(TAG, "Response: " + response.body());
+                return response.body();
+            } catch (IOException e) {
+                throw new CompletionException(e);
+            }
+
+        });
+
+    }
+
     public CompletableFuture<ServerResponse<String>> updateProfile(String firstName, String lastName, String email, String authToken) {
 
         MyRetrofit.setAuthToken(authToken);

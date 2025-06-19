@@ -1,7 +1,9 @@
 package com.elegidocodes.androidtest.ui.activity;
 
 import static com.elegidocodes.androidtest.utility.SharedPreferencesUtil.get;
+import static com.elegidocodes.androidtest.utility.SharedPreferencesUtil.remove;
 
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
@@ -17,6 +19,7 @@ import androidx.core.content.ContextCompat;
 import androidx.core.view.GravityCompat;
 import androidx.databinding.DataBindingUtil;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.NavOptions;
 import androidx.navigation.fragment.NavHostFragment;
@@ -25,6 +28,7 @@ import androidx.navigation.ui.NavigationUI;
 
 import com.elegidocodes.androidtest.R;
 import com.elegidocodes.androidtest.databinding.ActivityMainBinding;
+import com.elegidocodes.androidtest.model.Token;
 import com.elegidocodes.androidtest.model.User;
 import com.elegidocodes.androidtest.utility.CircleTransform;
 import com.google.android.material.navigation.NavigationView;
@@ -36,17 +40,28 @@ public class MainActivity extends AppCompatActivity {
     private static final String TAG = "MainActivity";
 
     private ActivityMainBinding binding;
+    private MainActivityViewModel viewModel;
+
     private NavController navController;
     private AppBarConfiguration appBarConfiguration;
     private DrawerLayout drawerLayout;
+
     private User user;
+    private Token token;
+
+    private Context context;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
+        viewModel = new ViewModelProvider(this).get(MainActivityViewModel.class);
 
         user = get(this, "MyPrefs", "user", User.class);
+        token = get(this, "MyPrefs", "token", Token.class);
+
+        context = this;
 
         // Initialize Navigation Drawer
         drawerLayout = binding.drawerLayout;
@@ -80,6 +95,19 @@ public class MainActivity extends AppCompatActivity {
                     drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
                 }
             });
+
+
+            navigationView.setNavigationItemSelectedListener(item -> {
+
+                if (item.getItemId() == R.id.menu_logout) {
+                    if (token != null) {
+                        logOut(token);
+                    }
+                }
+
+                return true;
+            });
+
         }
 
     }
@@ -175,6 +203,29 @@ public class MainActivity extends AppCompatActivity {
         } catch (Exception e) {
             Toast.makeText(this, "Navigation error", Toast.LENGTH_SHORT).show();
         }
+    }
+
+    private void logOut(Token token) {
+        viewModel.logout(token.getAccessToken())
+                .thenAccept(serverResponse -> {
+                    if (serverResponse != null && serverResponse.getCode() == 200) {
+
+                        runOnUiThread(() -> {
+
+                            Toast.makeText(context, serverResponse.getMessage(), Toast.LENGTH_SHORT).show();
+
+                            navController.navigate(R.id.loginFragment);
+                            remove(context, "MyPrefs", "user");
+                            remove(context, "MyPrefs", "token");
+
+                        });
+
+                    }
+                })
+                .exceptionally(throwable -> {
+                    Log.e(TAG, "Error logging out", throwable);
+                    return null;
+                });
     }
 
 }

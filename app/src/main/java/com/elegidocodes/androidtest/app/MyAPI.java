@@ -24,6 +24,9 @@ public interface MyAPI {
     @POST("auth/login")
     Call<ServerResponse<LoginResponseData>> login(@Body JsonObject jsonObject);
 
+    @POST("auth/logout")
+    Call<ServerResponse<String>> logout();
+
     @GET("library")
     Call<ServerResponse<LibraryResponseData>> searchInLibrary(@Query("search") String search);
 
