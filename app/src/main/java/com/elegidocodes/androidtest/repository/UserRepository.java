@@ -9,11 +9,13 @@ import com.elegidocodes.androidtest.model.LoginResponseData;
 import com.elegidocodes.androidtest.model.ServerResponse;
 import com.google.gson.JsonObject;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionException;
 
 import okhttp3.MediaType;
+import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.Response;
@@ -55,6 +57,27 @@ public class UserRepository {
             RequestBody emailBody = RequestBody.create(email, MediaType.parse("text/plain"));
 
             Call<ServerResponse<String>> call = myAPI.updateProfile(firstNameBody, lastNameBody, emailBody);
+
+            try {
+                Response<ServerResponse<String>> response = call.execute();
+                Log.d(TAG, "Response: " + response.body());
+                return response.body();
+            } catch (IOException e) {
+                throw new CompletionException(e);
+            }
+        });
+    }
+
+    public CompletableFuture<ServerResponse<String>> updateProfilePicture(File file, String authToken) {
+        MyRetrofit.setAuthToken(authToken);
+        myAPI = MyRetrofit.getService();
+
+        return CompletableFuture.supplyAsync(() -> {
+
+            RequestBody fileRequestBody = RequestBody.create(file, MediaType.parse("image/*"));
+            MultipartBody.Part filePart = MultipartBody.Part.createFormData("image", file.getName(), fileRequestBody);
+
+            Call<ServerResponse<String>> call = myAPI.updateProfilePicture(filePart);
 
             try {
                 Response<ServerResponse<String>> response = call.execute();

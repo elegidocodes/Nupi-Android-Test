@@ -8,6 +8,10 @@ import android.graphics.Shader;
 
 import com.squareup.picasso.Transformation;
 
+/**
+ * @author Fernando Ismael Canul Caballero
+ * @version 1.0.0
+ */
 public class CircleTransform implements Transformation {
 
     @Override
