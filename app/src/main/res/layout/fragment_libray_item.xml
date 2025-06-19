@@ -24,32 +24,43 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:layout_marginHorizontal="8dp"
                 android:orientation="vertical">
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@{itemLibraryInfo.title}" />
+                    android:layout_marginBottom="6dp"
+                    android:text="@{itemLibraryInfo.title}"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@{itemLibraryInfo.description}" />
+                    android:layout_marginBottom="6dp"
+                    android:text="@{itemLibraryInfo.description}"
+                    android:textSize="16sp" />
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@{itemLibraryInfo.fileType}" />
+                    android:layout_marginBottom="6dp"
+                    android:text="@{itemLibraryInfo.fileType}"
+                    android:textSize="16sp" />
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@{itemLibraryInfo.creatorFullName}" />
+                    android:layout_marginBottom="6dp"
+                    android:text="@{itemLibraryInfo.creatorFullName}"
+                    android:textSize="16sp" />
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@{itemLibraryInfo.createdBy.email}" />
+                    android:text="@{itemLibraryInfo.createdBy.email}"
+                    android:textSize="16sp" />
 
             </LinearLayout>
 
