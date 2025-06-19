@@ -9,11 +9,13 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
@@ -23,10 +25,13 @@ import com.elegidocodes.androidtest.R;
 import com.elegidocodes.androidtest.databinding.FragmentLoginBinding;
 import com.elegidocodes.androidtest.model.Token;
 import com.elegidocodes.androidtest.model.User;
+import com.google.android.material.progressindicator.CircularProgressIndicator;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
+import com.squareup.picasso.Callback;
+import com.squareup.picasso.Picasso;
 
 public class LoginFragment extends Fragment {
 
@@ -40,6 +45,8 @@ public class LoginFragment extends Fragment {
 
     private NavController navController;
 
+    private CircularProgressIndicator indicator;
+    private ImageView imageView;
     private TextInputLayout emailInputLayout;
     private TextInputLayout passwordInputLayout;
     private TextInputEditText emailEditText;
@@ -53,6 +60,8 @@ public class LoginFragment extends Fragment {
 
         context = requireContext();
 
+        indicator = binding.indicator;
+        imageView = binding.imageView;
         emailInputLayout = binding.emailInputLayout;
         passwordInputLayout = binding.passwordInputLayout;
         emailEditText = binding.emailEditText;
@@ -76,8 +85,33 @@ public class LoginFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         User user = get(context, "MyPrefs", "user", User.class);
+
+
         if (user != null) {
             Toast.makeText(requireContext(), "Bienvenido " + user.getName(), Toast.LENGTH_SHORT).show();
+
+            Picasso.get()
+                    .load(user.getProfilePicture()) // can be URL or Uri
+                    .placeholder(R.drawable.ic_launcher_foreground) // shown while loading
+                    .error(R.drawable.ic_launcher_foreground)             // shown on failure
+                    .into(imageView, new Callback() {
+                        @Override
+                        public void onSuccess() {
+                            Log.d("Picasso", "Image loaded successfully");
+                            indicator.setVisibility(View.GONE);
+                        }
+
+                        @Override
+                        public void onError(Exception e) {
+                            Log.e("Picasso", "Image load failed", e);
+                        }
+                    });
+
+            emailEditText.setText(user.getEmail());
+
+        } else {
+            binding.indicator.setVisibility(View.GONE);
+            binding.imageView.setImageDrawable(ContextCompat.getDrawable(requireContext(), R.drawable.ic_launcher_foreground));
         }
 
         // Initialize NavController

@@ -151,28 +151,32 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
 
-        Picasso.get()
-                .load(user.getProfilePicture())
-                .placeholder(R.drawable.icon_person_24px)
-                .error(R.drawable.icon_person_24px)
-                .transform(new CircleTransform())
-                .into(new Target() {
-                    @Override
-                    public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
-                        menu.findItem(R.id.menu_user_information).setIcon(new BitmapDrawable(getResources(), bitmap));
-                    }
+        if(user != null){
 
-                    @Override
-                    public void onBitmapFailed(Exception e, Drawable errorDrawable) {
-                        Log.e(TAG, e.getMessage(), e);
-                        menu.findItem(R.id.menu_user_information).setIcon(errorDrawable);
-                    }
+            Picasso.get()
+                    .load(user.getProfilePicture())
+                    .placeholder(R.drawable.icon_person_24px)
+                    .error(R.drawable.icon_person_24px)
+                    .transform(new CircleTransform())
+                    .into(new Target() {
+                        @Override
+                        public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
+                            menu.findItem(R.id.menu_user_information).setIcon(new BitmapDrawable(getResources(), bitmap));
+                        }
 
-                    @Override
-                    public void onPrepareLoad(Drawable placeHolderDrawable) {
-                        menu.findItem(R.id.menu_user_information).setIcon(placeHolderDrawable);
-                    }
-                });
+                        @Override
+                        public void onBitmapFailed(Exception e, Drawable errorDrawable) {
+                            Log.e(TAG, e.getMessage(), e);
+                            menu.findItem(R.id.menu_user_information).setIcon(errorDrawable);
+                        }
+
+                        @Override
+                        public void onPrepareLoad(Drawable placeHolderDrawable) {
+                            menu.findItem(R.id.menu_user_information).setIcon(placeHolderDrawable);
+                        }
+                    });
+
+        }
 
         return super.onPrepareOptionsMenu(menu);
     }
